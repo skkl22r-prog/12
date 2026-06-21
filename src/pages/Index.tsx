@@ -148,7 +148,8 @@ src="https://www.google.com/maps?q=قاعة+شهرزاد+الطائف&output=emb
             </div>
           </section>
 
-        
+        {/* RSVP Section */}
+        <RSVP />
 
           <footer className="px-4 py-12 text-center">
             <Reveal>
