@@ -1,307 +1,157 @@
-import { useEffect, useRef, useState } from "react";
-import { Check, X, Send, Heart, Download } from "lucide-react";
-import QRCode from "qrcode";
-import Reveal from "./Reveal";
-import { useLang } from "@/i18n/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
-const HOST_WHATSAPP = "966554129943";
-const REDIRECT_SECONDS = 10;
+// Google Form action
+const GOOGLE_FORM_ACTION =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeCCc76FLMiqg_BMz4jLmcJ8RWBs0pYdOlhx0Rba1ZIbKxctQ/formResponse";
 
-type State =
-  | { kind: "form" }
-  | { kind: "loading" }
-  | { kind: "qr"; name: string; token: string; dataUrl: string }
-  | { kind: "declined"; name: string };
+const FIELD_NAME = "entry.2121080640";
+const FIELD_ATTEND = "entry.1078161612";
+const FIELD_MESSAGE = "entry.2105314445";
 
-// Per-device id so a returning user keeps the same row attribution
-const getDeviceId = () => {
-  let id = localStorage.getItem("device_id");
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem("device_id", id);
-  }
-  return id;
-};
-
-const RSVP = () => {
-  const { t, lang } = useLang();
+const Rsvp = () => {
   const [name, setName] = useState("");
-  const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
-  const [state, setState] = useState<State>({ kind: "form" });
-  const [countdown, setCountdown] = useState(REDIRECT_SECONDS);
-  const redirectedRef = useRef(false);
+  const [attendance, setAttendance] = useState<"yes" | "no" | "">("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const buildWaUrl = (status: "attending" | "declined", guestName: string, token?: string) => {
-    const text =
-      status === "attending"
-        ? lang === "ar"
-          ? `🌸 تأكيد حضور حفل زفاف صبا سعد\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله${token ? `\nرمز الدخول: ${token}` : ""}`
-          : `🌸 Wedding RSVP — Saba Saad\nName: ${guestName}\nStatus: Will attend, God willing${token ? `\nEntry code: ${token}` : ""}`
-        : lang === "ar"
-          ? `🌸 رد على دعوة حفل زفاف صبا سعد\nالاسم: ${guestName}\nالحالة: للأسف لن أتمكن من الحضور`
-          : `🌸 Wedding RSVP — Saba Saad\nName: ${guestName}\nStatus: Sorry, unable to attend`;
-    return `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const submit = async () => {
-    if (!name.trim() || !choice) return;
-    setState({ kind: "loading" });
-    const trimmed = name.trim();
-    const deviceId = getDeviceId();
-
-    if (choice === "declined") {
-      await supabase.from("rsvps").insert({
-        name: trimmed,
-        status: "declined",
-        device_id: deviceId,
-      });
-      setState({ kind: "declined", name: trimmed });
-      setTimeout(() => {
-        window.location.href = buildWaUrl("declined", trimmed);
-      }, 1500);
-      return;
-    }
-
-    // attending → create unique QR token, persist, generate QR image
-    const token = crypto.randomUUID();
-    const { error } = await supabase.from("rsvps").insert({
-      name: trimmed,
-      status: "attending",
-      device_id: deviceId,
-      qr_token: token,
-    });
-    if (error) {
-      console.error("rsvp insert error", error);
-    }
-
-    const scanUrl = `${window.location.origin}/scan/${token}`;
-    const dataUrl = await QRCode.toDataURL(scanUrl, {
-      width: 600,
-      margin: 2,
-      color: { dark: "#7a2747", light: "#ffffff" },
-    });
-    setState({ kind: "qr", name: trimmed, token, dataUrl });
-    setCountdown(REDIRECT_SECONDS);
-  };
-
-  // countdown + auto-redirect once QR is shown
-  useEffect(() => {
-    if (state.kind !== "qr") return;
-    redirectedRef.current = false;
-    const iv = setInterval(() => {
-      setCountdown((c) => {
-        if (c <= 1) {
-          clearInterval(iv);
-          if (!redirectedRef.current) {
-            redirectedRef.current = true;
-            window.location.href = buildWaUrl("attending", state.name, state.token);
-          }
-          return 0;
-        }
-        return c - 1;
-      });
-    }, 1000);
-    return () => clearInterval(iv);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.kind]);
-
-  const saveQr = () => {
-    if (state.kind !== "qr") return;
-    const a = document.createElement("a");
-    a.href = state.dataUrl;
-    a.download = `wedding-qr-${state.name.replace(/\s+/g, "-")}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
-  if (state.kind === "qr") {
-    return (
-      <Reveal>
-        <div
-          className="mx-auto max-w-md rounded-2xl p-6 sm:p-8 text-center backdrop-blur-md"
-          style={{
-            background: "hsla(345, 60%, 97%, 0.85)",
-            border: "1.5px solid hsl(340 55% 70%)",
-            boxShadow: "var(--shadow-soft)",
-          }}
-        >
-          <Heart
-            className="mx-auto w-9 h-9 mb-2"
-            style={{ color: "hsl(340 60% 55%)", fill: "hsl(340 60% 55%)" }}
-          />
-          <div
-            className="font-tajawal text-lg sm:text-xl mb-1"
-            style={{ color: "hsl(340 45% 30%)", fontWeight: 700 }}
-          >
-            {t("qr_title")}
-          </div>
-          <div className="font-tajawal text-sm mb-4" style={{ color: "hsl(340 25% 45%)" }}>
-            {state.name}
-          </div>
-
-          <div
-            className="mx-auto rounded-xl p-3 inline-block"
-            style={{
-              background: "white",
-              border: "1.5px solid hsl(340 50% 75%)",
-              boxShadow: "0 6px 22px hsl(340 50% 60% / 0.25)",
-            }}
-          >
-            <img
-              src={state.dataUrl}
-              alt="QR"
-              className="block w-[230px] h-[230px] sm:w-[260px] sm:h-[260px]"
-            />
-          </div>
-
-          <p className="font-tajawal text-xs mt-3" style={{ color: "hsl(340 25% 45%)" }}>
-            {t("qr_sub")}
-          </p>
-
-          <button
-            onClick={saveQr}
-            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-tajawal text-sm transition-all hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, hsl(340 65% 70%), hsl(340 55% 50%))",
-              color: "white",
-              boxShadow: "0 4px 14px hsl(340 55% 55% / 0.4)",
-              fontWeight: 700,
-            }}
-          >
-            <Download className="w-4 h-4" />
-            {t("save_qr")}
-          </button>
-
-          <div className="font-tajawal text-xs mt-5" style={{ color: "hsl(340 35% 40%)" }}>
-            {t("redirecting_in")}{" "}
-            <span style={{ color: "hsl(340 60% 50%)", fontWeight: 700 }}>
-              {countdown}
-            </span>{" "}
-            {t("seconds_short")}
-          </div>
-        </div>
-      </Reveal>
+    const formData = new FormData();
+    formData.append(FIELD_NAME, name);
+    formData.append(
+      FIELD_ATTEND,
+      attendance === "yes" ? "تأكيد الحضور" : "الاعتذار عن الحضور"
     );
-  }
+    formData.append(FIELD_MESSAGE, message);
 
-  if (state.kind === "declined") {
-    return (
-      <Reveal>
-        <div
-          className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
-          style={{
-            background: "hsla(345, 60%, 97%, 0.75)",
-            border: "1.5px solid hsl(340 55% 70%)",
-            boxShadow: "var(--shadow-soft)",
-          }}
-        >
-          <Heart
-            className="mx-auto w-10 h-10 mb-3"
-            style={{ color: "hsl(340 60% 55%)", fill: "hsl(340 60% 55%)" }}
-          />
-          <div
-            className="font-tajawal text-xl mb-2"
-            style={{ color: "hsl(340 45% 30%)", fontWeight: 700 }}
-          >
-            {t("thanks_declined")}
-          </div>
-          <div className="font-tajawal text-base mb-3" style={{ color: "hsl(340 35% 35%)" }}>
-            {state.name}
-          </div>
-          <p className="font-tajawal text-sm" style={{ color: "hsl(340 20% 45%)" }}>
-            {t("redirect_wa")}
-          </p>
-        </div>
-      </Reveal>
-    );
-  }
+    try {
+      await fetch(GOOGLE_FORM_ACTION, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
+      });
+
+      alert("تم تسجيل الرد بنجاح");
+      setName("");
+      setAttendance("");
+      setMessage("");
+    } catch {
+      alert("صار خطأ بالإرسال");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Reveal>
-      <div
-        className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
+    <div className="max-w-md mx-auto p-6">
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 rounded-2xl p-5"
         style={{
-          background: "hsla(345, 60%, 97%, 0.7)",
-          border: "1.5px solid hsl(340 50% 75% / 0.6)",
-          boxShadow: "var(--shadow-soft)",
+          background: "#ffffff",
+          border: "1.5px solid #B36E71",
+          boxShadow: "0 8px 25px rgba(0,0,0,0.10)",
         }}
       >
-        <label
-          className={`block font-tajawal text-sm mb-2 ${lang === "ar" ? "text-right" : "text-left"}`}
-          style={{ color: "hsl(340 40% 35%)" }}
-        >
-          {t("name_label")}
-        </label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          maxLength={60}
-          placeholder={t("name_placeholder")}
-          className="w-full px-4 py-3 rounded-xl font-tajawal outline-none transition-colors"
-          style={{
-            background: "hsla(345, 60%, 99%, 0.85)",
-            border: "1.5px solid hsl(340 45% 78%)",
-            color: "hsl(340 35% 25%)",
-            textAlign: lang === "ar" ? "right" : "left",
-          }}
-          dir={lang === "ar" ? "rtl" : "ltr"}
-        />
 
-        <div className="grid grid-cols-2 gap-3 mt-5">
+        {/* الاسم */}
+        <div>
+  <label
+    className="block mb-1 text-sm"
+    style={{ color: "#B36E71" }}
+  >
+    الاسم الكريم
+  </label>
+
+  <input
+    type="text"
+    placeholder="اكتب اسمك الكريم..."
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    className="w-full rounded-xl px-4 py-3 text-sm"
+    style={{
+      background: "#f5f5f5",
+      border: "1px solid #B36E71",
+      color: "#B36E71",
+    }}
+  />
+</div>
+
+        {/* أزرار الحضور */}
+        <div className="grid grid-cols-2 gap-2">
+
           <button
-            onClick={() => setChoice("attending")}
-            className="py-3 rounded-xl font-tajawal text-sm transition-all flex items-center justify-center gap-2"
+            type="button"
+            onClick={() => setAttendance("yes")}
+            className="rounded-xl px-3 py-3 text-sm border"
             style={{
               background:
-                choice === "attending"
-                  ? "linear-gradient(135deg, hsl(340 65% 75%), hsl(340 55% 55%))"
-                  : "hsla(345, 60%, 99%, 0.6)",
-              color: choice === "attending" ? "white" : "hsl(340 45% 40%)",
-              border: "1.5px solid hsl(340 55% 65%)",
-              boxShadow:
-                choice === "attending" ? "0 0 18px hsl(340 60% 70% / 0.5)" : "none",
+                attendance === "yes" ? "#B36E71" : "#f5f5f5",
+              border: "1px solid #B36E71",
+              color: attendance === "yes" ? "#fff" : "#B36E71",
             }}
           >
-            <Check className="w-4 h-4" />
-            {t("confirm")}
+            تأكيد الحضور
           </button>
+
           <button
-            onClick={() => setChoice("declined")}
-            className="py-3 rounded-xl font-tajawal text-sm transition-all flex items-center justify-center gap-2"
+            type="button"
+            onClick={() => setAttendance("no")}
+            className="rounded-xl px-3 py-3 text-sm border"
             style={{
               background:
-                choice === "declined"
-                  ? "hsl(340 20% 45%)"
-                  : "hsla(345, 60%, 99%, 0.6)",
-              color: choice === "declined" ? "white" : "hsl(340 25% 40%)",
-              border: "1.5px solid hsl(340 25% 55%)",
+                attendance === "no" ? "#B36E71" : "#f5f5f5",
+              border: "1px solid #B36E71",
+              color: attendance === "no" ? "#fff" : "#B36E71",
             }}
           >
-            <X className="w-4 h-4" />
-            {t("decline")}
+            الاعتذار عن الحضور
           </button>
+
         </div>
 
+        {/* الرسالة */}
+        <div>
+  <label
+    className="block mb-1 text-sm"
+    style={{ color: "#B36E71" }}
+  >
+    رسالة إلى العروسين (اختياري)
+  </label>
+
+  <textarea
+    placeholder="اكتب رسالتك..."
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    className="w-full rounded-xl px-4 py-3 text-sm resize-none"
+    rows={3}
+    style={{
+      background: "#f5f5f5",
+      border: "1px solid #B36E71",
+      color: "#B36E71",
+    }}
+  />
+</div>
+
+        {/* زر الإرسال */}
         <button
-          onClick={submit}
-          disabled={!name.trim() || !choice || state.kind === "loading"}
-          className="w-full mt-5 py-3 rounded-xl font-tajawal text-base transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-full px-5 py-3 text-sm font-medium"
           style={{
-            background: "linear-gradient(135deg, hsl(340 65% 70%), hsl(340 55% 50%))",
-            color: "white",
-            boxShadow: "0 4px 20px hsl(340 55% 55% / 0.4)",
-            fontWeight: 700,
+            background: "#B36E71",
+            color: "#fff",
           }}
         >
-          <Send className="w-4 h-4" />
-          {state.kind === "loading" ? t("sending") : t("send")}
+          {loading ? "جاري الإرسال..." : "تأكيد الإرسال"}
         </button>
-      </div>
-    </Reveal>
+
+      </form>
+    </div>
   );
 };
 
-export default RSVP;
+export default Rsvp;
