@@ -181,9 +181,10 @@ const Index = () => {
 
           {/* ✔️ السهمين (إضافة فقط) */}
           <div className={`scroll-indicator ${hideScroll ? "hide" : ""}`}>
-            <span className="arrow">⌄</span>
-            <span className="arrow">⌄</span>
-          </div>
+  <div className="scroll-text">اسحب للأسفل</div>
+  <span className="arrow">⌄</span>
+  <span className="arrow">⌄</span>
+</div>
 
           <footer className="px-4 py-12 text-center">
             <Reveal>
