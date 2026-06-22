@@ -3,7 +3,7 @@ import { Check, X, Send, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "./Reveal";
 
-const HOST_WHATSAPP = "99554129943";
+const HOST_WHATSAPP = "966554129943";
 
 type State =
   | { kind: "form" }
