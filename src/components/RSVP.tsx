@@ -69,7 +69,7 @@ const RSVP = () => {
         <div
           className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
           style={{
-            background: "hsla(345, 60%, 97%, 0.6)",
+background: "hsla(40, 50%, 95%, 0.6)"
             border: "2px solid hsl(340 55% 60%)",
             boxShadow: "0 0 40px hsl(340 55% 60% / 0.3)",
           }}
@@ -98,7 +98,7 @@ const RSVP = () => {
           className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
           style={{
             background: "hsla(345, 60%, 97%, 0.6)",
-            border: "1.5px solid hsl(340 50% 75% / 0.5)",
+border: "1.5px solid hsl(42 75% 55% / 0.5)"
           }}
         >
           <Heart className="mx-auto w-10 h-10 mb-3" style={{ color: "hsl(340 55% 60%)" }} />
@@ -142,7 +142,7 @@ return (
         </p>
       </div>
 
-        <label className="block text-sm mb-2" style={{ color: "hsl(340 45% 30%)" }}>
+        <label className="block text-sm mb-2" style={{ color: "hsl(30 35% 22%)" }}>
           {t("name_label")}
         </label>
 
@@ -152,9 +152,9 @@ return (
           placeholder={t("name_placeholder")}
           className="w-full px-4 py-3 rounded-xl text-right"
           style={{
-            background: "hsla(345, 60%, 98%, 0.8)",
-            border: "1.5px solid hsl(340 50% 75% / 0.5)",
-            color: "hsl(340 45% 30%)",
+            background: "hsla(40, 50%, 98%, 0.8)",
+border: "1.5px solid hsl(42 60% 60% / 0.6)",
+color: "hsl(30 35% 22%)",
           }}
         />
 
@@ -163,9 +163,15 @@ return (
             onClick={() => setChoice("attending")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background: choice === "attending" ? "hsl(340 55% 60%)" : "hsla(345, 60%, 98%, 0.6)",
-              color: "#fff",
-              border: "1.5px solid hsl(340 50% 75% / 0.5)",
+              background:
+  choice === "declined"
+    ? "hsl(30 30% 35%)"
+    : "hsla(40, 50%, 98%, 0.6)",
+color:
+  choice === "declined"
+    ? "hsl(40 50% 95%)"
+    : "hsl(30 25% 35%)",
+border: "1.5px solid hsl(30 30% 50%)",
             }}
           >
             <Check className="w-4 h-4" />
@@ -176,9 +182,19 @@ return (
             onClick={() => setChoice("declined")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background: choice === "declined" ? "hsl(340 55% 60%)" : "hsla(345, 60%, 98%, 0.6)",
-              color: "#fff",
-              border: "1.5px solid hsl(340 50% 75% / 0.5)",
+              background:
+  choice === "attending"
+    ? "linear-gradient(135deg, hsl(45 80% 65%), hsl(38 70% 45%))"
+    : "hsla(40, 50%, 98%, 0.6)",
+color:
+  choice === "attending"
+    ? "hsl(30 40% 18%)"
+    : "hsl(38 65% 38%)",
+border: "1.5px solid hsl(42 75% 55%)",
+boxShadow:
+  choice === "attending"
+    ? "0 0 20px hsl(42 80% 60% / 0.5)"
+    : "none",
             }}
           >
             <X className="w-4 h-4" />
@@ -191,9 +207,9 @@ return (
           disabled={!name.trim() || !choice || state.kind === "loading"}
           className="w-full mt-5 py-3 rounded-xl text-base flex items-center justify-center gap-2"
           style={{
-            background: "hsl(340 55% 60%)",
-            color: "#fff",
-            boxShadow: "0 4px 20px hsl(340 55% 60% / 0.4)",
+            background: "linear-gradient(135deg, hsl(45 80% 65%), hsl(38 70% 42%))",
+color: "hsl(30 40% 18%)",
+boxShadow: "0 4px 20px hsl(42 80% 50% / 0.45)",
             fontWeight: 700,
           }}
         >
