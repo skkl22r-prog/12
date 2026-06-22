@@ -1,157 +1,205 @@
 import { useState } from "react";
+import { Check, X, Send, Heart } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import Reveal from "./Reveal";
 
-// Google Form action
-const GOOGLE_FORM_ACTION =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeCCc76FLMiqg_BMz4jLmcJ8RWBs0pYdOlhx0Rba1ZIbKxctQ/formResponse";
+const HOST_WHATSAPP = "99554129943";
 
-const FIELD_NAME = "entry.2121080640";
-const FIELD_ATTEND = "entry.1078161612";
-const FIELD_MESSAGE = "entry.2105314445";
+type State =
+  | { kind: "form" }
+  | { kind: "loading" }
+  | { kind: "attending"; name: string }
+  | { kind: "declined"; name: string }
+  | { kind: "error"; msg: string };
 
-const Rsvp = () => {
+const RSVP = () => {
   const [name, setName] = useState("");
-  const [attendance, setAttendance] = useState<"yes" | "no" | "">("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
+  const [state, setState] = useState<State>({ kind: "form" });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const PINK = "hsl(340 55% 60%)";
+  const PINK_BORDER = "hsl(340 50% 75% / 0.5)";
+  const BG = "hsla(345, 60%, 97%, 0.6)";
+  const TEXT = "hsl(340 45% 30%)";
 
-    const formData = new FormData();
-    formData.append(FIELD_NAME, name);
-    formData.append(
-      FIELD_ATTEND,
-      attendance === "yes" ? "تأكيد الحضور" : "الاعتذار عن الحضور"
-    );
-    formData.append(FIELD_MESSAGE, message);
+  const submit = async () => {
+    if (!name.trim() || !choice) return;
+    setState({ kind: "loading" });
 
-    try {
-      await fetch(GOOGLE_FORM_ACTION, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData,
-      });
+    const deviceId = crypto.randomUUID();
 
-      alert("تم تسجيل الرد بنجاح");
-      setName("");
-      setAttendance("");
-      setMessage("");
-    } catch {
-      alert("صار خطأ بالإرسال");
-    } finally {
-      setLoading(false);
+    const { error } = await supabase.from("rsvps").insert({
+      name: name.trim(),
+      status: choice,
+      device_id: deviceId,
+    });
+
+    if (error) {
+      setState({ kind: "error", msg: "حدث خطأ، حاول مرة أخرى" });
+      return;
+    }
+
+    if (choice === "attending") {
+      setState({ kind: "attending", name: name.trim() });
+      setTimeout(() => sendWhatsApp("attending", name.trim()), 3000);
+    } else {
+      setState({ kind: "declined", name: name.trim() });
+      setTimeout(() => sendWhatsApp("declined", name.trim()), 4000);
     }
   };
 
-  return (
-    <div className="max-w-md mx-auto p-6">
+  const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
+    const text =
+      status === "attending"
+        ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
+        : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 rounded-2xl p-5"
-        style={{
-          background: "#ffffff",
-          border: "1.5px solid #B36E71",
-          boxShadow: "0 8px 25px rgba(0,0,0,0.10)",
-        }}
-      >
+    const url = `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
+    window.location.href = url;
+  };
 
-        {/* الاسم */}
-        <div>
-  <label
-    className="block mb-1 text-sm"
-    style={{ color: "#B36E71" }}
-  >
-    الاسم الكريم
-  </label>
+  // ===== STATES =====
 
-  <input
-    type="text"
-    placeholder="اكتب اسمك الكريم..."
-    value={name}
-    onChange={(e) => setName(e.target.value)}
-    className="w-full rounded-xl px-4 py-3 text-sm"
-    style={{
-      background: "#f5f5f5",
-      border: "1px solid #B36E71",
-      color: "#B36E71",
-    }}
-  />
-</div>
+  if (state.kind === "attending") {
+    return (
+      <Reveal>
+        <div
+          className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+          style={{
+            background: BG,
+            border: `2px solid ${PINK}`,
+            boxShadow: `0 0 40px ${PINK}33`,
+          }}
+        >
+          <div className="text-2xl mb-4 font-bold" style={{ color: TEXT }}>
+            نسعد بحضورك 🌸
+          </div>
+          <div className="text-base mb-6" style={{ color: TEXT }}>
+            أهلاً وسهلاً، {state.name}
+          </div>
+          <p className="text-sm" style={{ color: TEXT }}>
+            سيتم تحويلك إلى الواتساب خلال لحظات...
+          </p>
+        </div>
+      </Reveal>
+    );
+  }
 
-        {/* أزرار الحضور */}
-        <div className="grid grid-cols-2 gap-2">
+  if (state.kind === "declined") {
+    return (
+      <Reveal>
+        <div
+          className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+          style={{
+            background: BG,
+            border: `1.5px solid ${PINK_BORDER}`,
+          }}
+        >
+          <Heart className="mx-auto w-10 h-10 mb-3" style={{ color: PINK, fill: PINK }} />
+          <p className="text-xl leading-loose" style={{ color: TEXT }}>
+            نقدّر اعتذارك يا {state.name} ❤️
+            <br />
+            ونراك في مناسبة أخرى
+          </p>
 
           <button
-            type="button"
-            onClick={() => setAttendance("yes")}
-            className="rounded-xl px-3 py-3 text-sm border"
+            onClick={() => sendWhatsApp("declined", state.name)}
+            className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
             style={{
-              background:
-                attendance === "yes" ? "#B36E71" : "#f5f5f5",
-              border: "1px solid #B36E71",
-              color: attendance === "yes" ? "#fff" : "#B36E71",
+              background: PINK,
+              color: "#fff",
+              boxShadow: `0 4px 14px ${PINK}55`,
             }}
           >
+            <Send className="w-4 h-4" />
+            إرسال عبر واتساب
+          </button>
+        </div>
+      </Reveal>
+    );
+  }
+
+  // ===== FORM =====
+
+  return (
+    <Reveal>
+      <div
+        className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
+        style={{
+          background: BG,
+          border: `1.5px solid ${PINK_BORDER}`,
+        }}
+      >
+        <label className="block text-sm mb-2" style={{ color: TEXT }}>
+          الاسم الكريم
+        </label>
+
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="اكتب اسمك هنا"
+          className="w-full px-4 py-3 rounded-xl text-right"
+          style={{
+            background: "hsla(345, 60%, 98%, 0.8)",
+            border: `1.5px solid ${PINK_BORDER}`,
+            color: TEXT,
+          }}
+        />
+
+        <div className="grid grid-cols-2 gap-3 mt-5">
+          <button
+            onClick={() => setChoice("attending")}
+            className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
+            style={{
+              background:
+                choice === "attending" ? PINK : BG,
+              color: TEXT,
+              border: `1.5px solid ${PINK_BORDER}`,
+              boxShadow: choice === "attending" ? `0 0 20px ${PINK}55` : "none",
+            }}
+          >
+            <Check className="w-4 h-4" />
             تأكيد الحضور
           </button>
 
           <button
-            type="button"
-            onClick={() => setAttendance("no")}
-            className="rounded-xl px-3 py-3 text-sm border"
+            onClick={() => setChoice("declined")}
+            className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
               background:
-                attendance === "no" ? "#B36E71" : "#f5f5f5",
-              border: "1px solid #B36E71",
-              color: attendance === "no" ? "#fff" : "#B36E71",
+                choice === "declined" ? PINK : BG,
+              color: TEXT,
+              border: `1.5px solid ${PINK_BORDER}`,
             }}
           >
-            الاعتذار عن الحضور
+            <X className="w-4 h-4" />
+            الاعتذار
           </button>
-
         </div>
 
-        {/* الرسالة */}
-        <div>
-  <label
-    className="block mb-1 text-sm"
-    style={{ color: "#B36E71" }}
-  >
-    رسالة إلى العروسين (اختياري)
-  </label>
-
-  <textarea
-    placeholder="اكتب رسالتك..."
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    className="w-full rounded-xl px-4 py-3 text-sm resize-none"
-    rows={3}
-    style={{
-      background: "#f5f5f5",
-      border: "1px solid #B36E71",
-      color: "#B36E71",
-    }}
-  />
-</div>
-
-        {/* زر الإرسال */}
         <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-full px-5 py-3 text-sm font-medium"
+          onClick={submit}
+          disabled={!name.trim() || !choice || state.kind === "loading"}
+          className="w-full mt-5 py-3 rounded-xl text-base flex items-center justify-center gap-2"
           style={{
-            background: "#B36E71",
+            background: PINK,
             color: "#fff",
+            boxShadow: `0 4px 20px ${PINK}55`,
+            fontWeight: 700,
           }}
         >
-          {loading ? "جاري الإرسال..." : "تأكيد الإرسال"}
+          <Send className="w-4 h-4" />
+          {state.kind === "loading" ? "جارٍ الإرسال..." : "إرسال"}
         </button>
 
-      </form>
-    </div>
+        {state.kind === "error" && (
+          <p className="text-sm text-center mt-3" style={{ color: "hsl(0 70% 45%)" }}>
+            {state.msg}
+          </p>
+        )}
+      </div>
+    </Reveal>
   );
 };
 
-export default Rsvp;
+export default RSVP;
