@@ -49,14 +49,24 @@ const RSVP = () => {
   };
 
   const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
-    const text =
-      status === "attending"
-        ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
-        : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
+  const text =
+    status === "attending"
+      ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
+      : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
 
-    const url = `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
-    window.location.href = url;
-  };
+  const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+
+  const url = isMobile
+    ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
+    : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+  window.location.href = url;
+};
+
+// ===== STATES =====
+
+if (state.kind === "attending") {
+  return (
 
   // ===== STATES =====
 
