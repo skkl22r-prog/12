@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, X, Send, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "./Reveal";
+import { useLang } from "@/i18n/LanguageContext";
 
 const HOST_WHATSAPP = "966554129943";
 
@@ -13,32 +14,15 @@ type State =
   | { kind: "error"; msg: string };
 
 const RSVP = () => {
+  const { t } = useLang();
+
   const [name, setName] = useState("");
   const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
   const [state, setState] = useState<State>({ kind: "form" });
 
-  const PINK = "hsl(340 55% 60%)";
-  const PINK_BORDER = "hsl(340 50% 75% / 0.5)";
-  const BG = "hsla(345, 60%, 97%, 0.6)";
-  const TEXT = "hsl(340 45% 30%)";
-
-  const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
-    const text =
-      status === "attending"
-        ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
-        : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
-
-    const isMobile = /iPhone|Android/i.test(navigator.userAgent);
-
-    const url = isMobile
-      ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
-      : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
-
-    window.location.href = url;
-  };
-
   const submit = async () => {
     if (!name.trim() || !choice) return;
+
     setState({ kind: "loading" });
 
     const deviceId = crypto.randomUUID();
@@ -59,91 +43,117 @@ const RSVP = () => {
       setTimeout(() => sendWhatsApp("attending", name.trim()), 3000);
     } else {
       setState({ kind: "declined", name: name.trim() });
-      setTimeout(() => sendWhatsApp("declined", name.trim()), 3000);
+      setTimeout(() => sendWhatsApp("declined", name.trim()), 4000);
     }
   };
 
+  const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
+    const text =
+      status === "attending"
+        ? `🌸 ${t("thanks_attending")}\n${guestName}\n`
+        : `🌸 ${t("thanks_declined")}\n${guestName}\n`;
+
+    const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+
+    const url = isMobile
+      ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
+      : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+    window.location.href = url;
+  };
+
+  // ===== ATTENDING =====
   if (state.kind === "attending") {
     return (
       <Reveal>
         <div
           className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
           style={{
-            background: BG,
-            border: `2px solid ${PINK}`,
-            boxShadow: `0 0 40px ${PINK}33`,
+            background: "hsla(345, 60%, 97%, 0.6)",
+            border: "2px solid hsl(340 55% 60%)",
+            boxShadow: "0 0 40px hsl(340 55% 60% / 0.3)",
           }}
         >
-          <div className="text-2xl mb-4 font-bold" style={{ color: TEXT }}>
-            نسعد بحضورك 🌸
+          <div className="text-2xl font-bold mb-4" style={{ color: "hsl(340 45% 30%)" }}>
+            {t("thanks_attending")}
           </div>
-          <div className="text-base mb-6" style={{ color: TEXT }}>
-            أهلاً وسهلاً، {state.name}
+
+          <div className="text-base mb-6" style={{ color: "hsl(340 45% 30%)" }}>
+            {state.name}
           </div>
-          <p className="text-sm" style={{ color: TEXT }}>
-            سيتم تحويلك إلى الواتساب خلال لحظات...
+
+          <p className="text-sm" style={{ color: "hsl(340 45% 30%)" }}>
+            {t("redirect_wa")}
           </p>
         </div>
       </Reveal>
     );
   }
 
+  // ===== DECLINED =====
   if (state.kind === "declined") {
     return (
       <Reveal>
         <div
           className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
           style={{
-            background: BG,
-            border: `1.5px solid ${PINK_BORDER}`,
+            background: "hsla(345, 60%, 97%, 0.6)",
+            border: "1.5px solid hsl(340 50% 75% / 0.5)",
           }}
         >
-          <Heart className="mx-auto w-10 h-10 mb-3" style={{ color: PINK, fill: PINK }} />
-          <p className="text-xl leading-loose" style={{ color: TEXT }}>
-            نقدّر اعتذارك يا {state.name} ❤️
+          <Heart className="mx-auto w-10 h-10 mb-3" style={{ color: "hsl(340 55% 60%)" }} />
+
+          <p className="text-xl leading-loose" style={{ color: "hsl(340 45% 30%)" }}>
+            {t("thanks_declined")}
             <br />
-            ونراك في مناسبة أخرى
+            {state.name}
           </p>
 
           <button
             onClick={() => sendWhatsApp("declined", state.name)}
             className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
             style={{
-              background: PINK,
+              background: "hsl(340 55% 60%)",
               color: "#fff",
-              boxShadow: `0 4px 14px ${PINK}55`,
+              boxShadow: "0 4px 14px hsl(340 55% 60% / 0.4)",
             }}
           >
             <Send className="w-4 h-4" />
-            إرسال عبر واتساب
+            {t("send")}
           </button>
         </div>
       </Reveal>
     );
   }
 
+  // ===== FORM =====
   return (
     <Reveal>
       <div
         className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
         style={{
-          background: BG,
-          border: `1.5px solid ${PINK_BORDER}`,
+          background: "hsla(345, 60%, 97%, 0.6)",
+          border: "1.5px solid hsl(340 50% 75% / 0.5)",
         }}
       >
-        <label className="block text-sm mb-2" style={{ color: TEXT }}>
-          الاسم الكريم
+        <div className="text-center mb-4">
+          <h2 style={{ color: "hsl(340 45% 30%)" }}>{t("rsvp_title")}</h2>
+          <p style={{ color: "hsl(340 45% 30%)" }}>{t("rsvp_sub")}</p>
+        </div>
+
+        <label className="block text-sm mb-2" style={{ color: "hsl(340 45% 30%)" }}>
+          {t("name_label")}
         </label>
 
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="اكتب اسمك هنا"
+          placeholder={t("name_placeholder")}
           className="w-full px-4 py-3 rounded-xl text-right"
           style={{
             background: "hsla(345, 60%, 98%, 0.8)",
-            border: `1.5px solid ${PINK_BORDER}`,
-            color: TEXT,
+            border: "1.5px solid hsl(340 50% 75% / 0.5)",
+            color: "hsl(340 45% 30%)",
           }}
         />
 
@@ -152,26 +162,26 @@ const RSVP = () => {
             onClick={() => setChoice("attending")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background: choice === "attending" ? PINK : BG,
-              color: TEXT,
-              border: `1.5px solid ${PINK_BORDER}`,
+              background: choice === "attending" ? "hsl(340 55% 60%)" : "hsla(345, 60%, 98%, 0.6)",
+              color: "#fff",
+              border: "1.5px solid hsl(340 50% 75% / 0.5)",
             }}
           >
             <Check className="w-4 h-4" />
-            تأكيد الحضور
+            {t("confirm")}
           </button>
 
           <button
             onClick={() => setChoice("declined")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background: choice === "declined" ? PINK : BG,
-              color: TEXT,
-              border: `1.5px solid ${PINK_BORDER}`,
+              background: choice === "declined" ? "hsl(340 55% 60%)" : "hsla(345, 60%, 98%, 0.6)",
+              color: "#fff",
+              border: "1.5px solid hsl(340 50% 75% / 0.5)",
             }}
           >
             <X className="w-4 h-4" />
-            الاعتذار
+            {t("decline")}
           </button>
         </div>
 
@@ -180,18 +190,18 @@ const RSVP = () => {
           disabled={!name.trim() || !choice || state.kind === "loading"}
           className="w-full mt-5 py-3 rounded-xl text-base flex items-center justify-center gap-2"
           style={{
-            background: PINK,
+            background: "hsl(340 55% 60%)",
             color: "#fff",
-            boxShadow: `0 4px 20px ${PINK}55`,
+            boxShadow: "0 4px 20px hsl(340 55% 60% / 0.4)",
             fontWeight: 700,
           }}
         >
           <Send className="w-4 h-4" />
-          {state.kind === "loading" ? "جارٍ الإرسال..." : "إرسال"}
+          {state.kind === "loading" ? t("sending") : t("send")}
         </button>
 
         {state.kind === "error" && (
-          <p className="text-sm text-center mt-3" style={{ color: "hsl(0 70% 45%)" }}>
+          <p className="text-sm text-center mt-3" style={{ color: "red" }}>
             {state.msg}
           </p>
         )}
