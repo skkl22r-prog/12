@@ -22,6 +22,21 @@ const RSVP = () => {
   const BG = "hsla(345, 60%, 97%, 0.6)";
   const TEXT = "hsl(340 45% 30%)";
 
+  const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
+    const text =
+      status === "attending"
+        ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
+        : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
+
+    const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+
+    const url = isMobile
+      ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
+      : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+    window.location.href = url;
+  };
+
   const submit = async () => {
     if (!name.trim() || !choice) return;
     setState({ kind: "loading" });
@@ -44,31 +59,9 @@ const RSVP = () => {
       setTimeout(() => sendWhatsApp("attending", name.trim()), 3000);
     } else {
       setState({ kind: "declined", name: name.trim() });
-      setTimeout(() => sendWhatsApp("declined", name.trim()), 4000);
+      setTimeout(() => sendWhatsApp("declined", name.trim()), 3000);
     }
   };
-
-  const sendWhatsApp = (status: "attending" | "declined", guestName: string) => {
-  const text =
-    status === "attending"
-      ? `🌸 تأكيد حضور الحفل\nالاسم: ${guestName}\nالحالة: سأحضر بإذن الله`
-      : `🌸 اعتذار عن الحضور\nالاسم: ${guestName}\nالحالة: لن أتمكن من الحضور`;
-
-  const isMobile = /iPhone|Android/i.test(navigator.userAgent);
-
-  const url = isMobile
-    ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
-    : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
-
-  window.location.href = url;
-};
-
-// ===== STATES =====
-
-if (state.kind === "attending") {
-  return (
-
-  // ===== STATES =====
 
   if (state.kind === "attending") {
     return (
@@ -129,8 +122,6 @@ if (state.kind === "attending") {
     );
   }
 
-  // ===== FORM =====
-
   return (
     <Reveal>
       <div
@@ -161,11 +152,9 @@ if (state.kind === "attending") {
             onClick={() => setChoice("attending")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background:
-                choice === "attending" ? PINK : BG,
+              background: choice === "attending" ? PINK : BG,
               color: TEXT,
               border: `1.5px solid ${PINK_BORDER}`,
-              boxShadow: choice === "attending" ? `0 0 20px ${PINK}55` : "none",
             }}
           >
             <Check className="w-4 h-4" />
@@ -176,8 +165,7 @@ if (state.kind === "attending") {
             onClick={() => setChoice("declined")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background:
-                choice === "declined" ? PINK : BG,
+              background: choice === "declined" ? PINK : BG,
               color: TEXT,
               border: `1.5px solid ${PINK_BORDER}`,
             }}
