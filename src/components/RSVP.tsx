@@ -127,19 +127,20 @@ const RSVP = () => {
   }
 
   // ===== FORM =====
-  return (
-    <Reveal>
-      <div
-        className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
-        style={{
-          background: "hsla(345, 60%, 97%, 0.6)",
-          border: "1.5px solid hsl(340 50% 75% / 0.5)",
-        }}
-      >
-        <div className="text-center mb-4">
-          <h2 style={{ color: "hsl(340 45% 30%)" }}>{t("rsvp_title")}</h2>
-          <p style={{ color: "hsl(340 45% 30%)" }}>{t("rsvp_sub")}</p>
-        </div>
+return (
+  <Reveal>
+    <div
+      className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
+      style={{
+        background: "hsla(345, 60%, 97%, 0.6)",
+        border: "1.5px solid hsl(340 50% 75% / 0.5)",
+      }}
+    >
+      <div className="text-center mb-4">
+        <p style={{ color: "hsl(340 45% 30%)" }}>
+          {t("rsvp_sub")}
+        </p>
+      </div>
 
         <label className="block text-sm mb-2" style={{ color: "hsl(340 45% 30%)" }}>
           {t("name_label")}
