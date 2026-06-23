@@ -73,31 +73,36 @@ const RSVP = () => {
 
   // ===== ATTENDING =====
   if (state.kind === "attending") {
-    return (
-      <Reveal>
-        <div
-          className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
-          style={{
-            background: PINK_BG,
-            border: `2px solid ${PINK}`,
-            boxShadow: `0 0 40px ${PINK}55`,
-          }}
-        >
-          <div className="text-2xl font-bold mb-4" style={{ color: TEXT }}>
-            {t("thanks_attending")}
-          </div>
+  return (
+    <Reveal>
+      <div
+        className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+        style={{
+          background: PINK_BG,
+          border: `2px solid ${PINK}`,
+          boxShadow: `0 0 40px ${PINK}55`,
+        }}
+      >
+        <Heart
+          className="mx-auto w-10 h-10 mb-3"
+          style={{ color: PINK, fill: PINK }}
+        />
 
-          <div className="text-base mb-6" style={{ color: TEXT }}>
-            {state.name}
-          </div>
-
-          <p className="text-sm" style={{ color: TEXT }}>
-            {t("redirect_wa")}
-          </p>
+        <div className="text-2xl font-bold mb-4" style={{ color: TEXT }}>
+          {t("thanks_attending")}
         </div>
-      </Reveal>
-    );
-  }
+
+        <div className="text-base mb-6" style={{ color: TEXT }}>
+          {state.name}
+        </div>
+
+        <p className="text-sm" style={{ color: TEXT }}>
+          {t("redirect_wa")}
+        </p>
+      </div>
+    </Reveal>
+  );
+}
 
   // ===== DECLINED =====
   if (state.kind === "declined") {
