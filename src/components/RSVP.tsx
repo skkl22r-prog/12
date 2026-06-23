@@ -31,7 +31,7 @@ const RSVP = () => {
 
     setState({ kind: "loading" });
 
-    const deviceId = crypto.randomUUID();
+const deviceId = Date.now().toString();
 
     const { error } = await supabase.from("rsvps").insert({
       name: name.trim(),
