@@ -54,22 +54,22 @@ const RSVP = () => {
   };
 
   const sendWhatsApp = (
-    status: "attending" | "declined",
-    guestName: string
-  ) => {
-    const text =
-      status === "attending"
-        ? `🌸 ${t("thanks_attending")}\n${guestName}`
-        : `🌸 ${t("thanks_declined")}\n${guestName}`;
+  status: "attending" | "declined",
+  guestName: string
+) => {
+  const text =
+    status === "attending"
+      ? `🌸 سأحضر بإذن الله\n${guestName}`
+      : `🌸 أعتذر عن الحضور\n${guestName}`;
 
-    const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+  const isMobile = /iPhone|Android/i.test(navigator.userAgent);
 
-    const url = isMobile
-      ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
-      : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
+  const url = isMobile
+    ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
+    : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
 
-    window.location.href = url;
-  };
+  window.location.href = url;
+};
 
   // ===== ATTENDING =====
   if (state.kind === "attending") {
