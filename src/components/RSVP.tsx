@@ -101,42 +101,35 @@ const RSVP = () => {
 
   // ===== DECLINED =====
   if (state.kind === "declined") {
-    return (
-      <Reveal>
-        <div
-          className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
-          style={{
-            background: PINK_BG,
-            border: `1.5px solid ${PINK_BORDER}`,
-          }}
-        >
-          <Heart
-            className="mx-auto w-10 h-10 mb-3"
-            style={{ color: PINK, fill: PINK }}
-          />
+  return (
+    <Reveal>
+      <div
+        className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+        style={{
+          background: PINK_BG,
+          border: `1.5px solid ${PINK_BORDER}`,
+        }}
+      >
+        <Heart
+          className="mx-auto w-10 h-10 mb-3"
+          style={{ color: PINK, fill: PINK }}
+        />
 
-          <p className="text-xl leading-loose" style={{ color: TEXT }}>
-            {t("thanks_declined")}
-            <br />
-            {state.name}
-          </p>
+        <p className="text-xl leading-loose mb-3" style={{ color: TEXT }}>
+          {t("thanks_declined")}
+        </p>
 
-          <button
-            onClick={() => sendWhatsApp("declined", state.name)}
-            className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-            style={{
-              background: PINK,
-              color: "#fff",
-              boxShadow: `0 4px 14px ${PINK}55`,
-            }}
-          >
-            <Send className="w-4 h-4" />
-            {t("send")}
-          </button>
+        <div className="text-base mb-6" style={{ color: TEXT }}>
+          {state.name}
         </div>
-      </Reveal>
-    );
-  }
+
+        <p className="text-sm" style={{ color: TEXT }}>
+          {t("redirect_wa")}
+        </p>
+      </div>
+    </Reveal>
+  );
+}
 
   // ===== FORM =====
   return (
