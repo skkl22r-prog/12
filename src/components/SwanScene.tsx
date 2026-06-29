@@ -10,7 +10,7 @@ const SwanScene = () => {
         style={{ maxWidth: 480, aspectRatio: "9 / 16" }}
       >
         <video
-          src="/sarah2.mp4"
+          src="/sarah1.mp4"
           autoPlay
           loop
           muted
@@ -43,7 +43,7 @@ const SwanScene = () => {
               {t("invite_with_love")}
             </div>
 
-<div className="flex items-center justify-center gap-20 font-tajawal text-lg sm:text-xl mt-1">
+<div className="hidden flex items-center justify-center gap-20 font-tajawal text-lg sm:text-xl mt-1">
   <span>{t("word1")}</span>
   <span>{t("word2")}</span>
 </div>
@@ -56,7 +56,7 @@ const SwanScene = () => {
             <div className="font-tajawal text-lg sm:text-xl mt-3">
               {t("invite_attend")}
             </div>
-<div className="w-full flex justify-center gap-16 font-tajawal text-lg sm:text-xl my-2">
+<div className="hidden w-full flex justify-center gap-16 font-tajawal text-lg sm:text-xl my-2">
   <span>{t("invite_before_bride")}</span>
   <span>{t("invite_before_bride_2")}</span>
 </div>
@@ -73,15 +73,22 @@ const SwanScene = () => {
   >
     ❤︎
   </span>
-  {t("groom_name")}
+ {t("groom_name")}
 </div>
-            <div className="font-tajawal text-lg sm:text-xl mt-10 inline-flex items-center gap-1.5" dir="ltr">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <rect x="3" y="5" width="18" height="16" rx="2" />
-                <path d="M3 9h18M8 3v4M16 3v4" />
-              </svg>
-              <span>{t("date_line")}</span>
-            </div>
+
+<div className="flex flex-col items-center mt-10">
+  <div className="font-tajawal text-lg sm:text-xl mb-1">
+    {t("invite_god_willing")}
+  </div>
+
+  <div className="font-tajawal text-lg sm:text-xl inline-flex items-center gap-1.5" dir="ltr">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 9h18M8 3v4M16 3v4" />
+    </svg>
+    <span>{t("date_line")}</span>
+  </div>
+</div>
           </div>
         </div>
       </div>
