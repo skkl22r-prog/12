@@ -10,7 +10,7 @@ const SwanScene = () => {
         style={{ maxWidth: 480, aspectRatio: "9 / 16" }}
       >
         <video
-          src="/sarah1.mp4"
+          src="/sarah25.mov"
           autoPlay
           loop
           muted
