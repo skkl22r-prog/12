@@ -103,7 +103,7 @@ const Index = () => {
               >
                 <iframe
                   title="Venue"
-                  src="https://www.google.com/maps?q=قاعة+شهرزاد+الطائف&output=embed"
+src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفالات+تبوك&output=embed"
                   width="100%"
                   height="320"
                   loading="lazy"
