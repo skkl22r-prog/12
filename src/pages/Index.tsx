@@ -96,7 +96,6 @@ const glow = "#7DD3FC";
               <div
                 className="max-w-2xl mx-auto rounded-2xl overflow-hidden"
                 style={{
-                  boxShadow: "var(--shadow-soft)",
 border: "1.5px solid #7DD3FC",
 boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
 borderRadius: "12px",
