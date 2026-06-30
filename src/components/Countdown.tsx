@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 
-const TARGET = new Date("2026-09-25T19:30:00+03:00").getTime();
+const TARGET = new Date("2026-07-30T19:30:00+03:00").getTime();
 
 const Countdown = () => {
   const { t } = useLang();
