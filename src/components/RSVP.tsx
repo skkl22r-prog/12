@@ -85,19 +85,16 @@ localStorage.setItem("rsvp_state", JSON.stringify(newState));
   return (
     <Reveal>
       <div
- >
-<Heart
-  className="mx-auto w-10 h-10 mb-3"
-/>
+        className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
         style={{
           background: CARD_BG,
-border: "1.5px solid #7DD3FC",
-boxShadow: "0 0 18px rgba(125,211,252,.6)",
+          border: "1.5px solid #7DD3FC",
+          boxShadow: "0 0 18px rgba(125,211,252,.6)",
         }}
       >
         <Heart
           className="mx-auto w-10 h-10 mb-3"
-style={{ color: "#888B97", fill: "#888B97" }}
+          style={{ color: "#888B97", fill: "#888B97" }}
         />
 
         <div className="text-2xl font-bold mb-4" style={{ color: TEXT }}>
@@ -107,13 +104,10 @@ style={{ color: "#888B97", fill: "#888B97" }}
         <div className="text-base mb-6" style={{ color: TEXT }}>
           {state.name}
         </div>
-
-    
       </div>
     </Reveal>
   );
 }
-
   // ===== DECLINED =====
   if (state.kind === "declined") {
   return (
