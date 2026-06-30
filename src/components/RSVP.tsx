@@ -66,10 +66,10 @@ await fetch(
     },
     body: new URLSearchParams({
       "entry.217146927": name.trim(),
-      "entry.1422434369":
-        choice === "attending"
-          ? "سأحضر بإذن الله"
-          : "الاعتذار عن الحضور",
+     "entry.1422434369":
+  choice === "attending"
+    ? "تاكيد الحضور"
+    : "الاعتذار عن الحضور",: "الاعتذار عن الحضور",
       "entry.1920509368": message,
     }),
   }
