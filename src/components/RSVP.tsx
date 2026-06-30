@@ -82,7 +82,7 @@ boxShadow: "0 0 18px rgba(125,211,252,.6)",
       >
         <Heart
           className="mx-auto w-10 h-10 mb-3"
-style={{ color: BLUE, fill: BLUE }}
+style={{ color: "#888B97", fill: "#888B97" }}
         />
 
         <div className="text-2xl font-bold mb-4" style={{ color: TEXT }}>
@@ -113,7 +113,7 @@ style={{ color: BLUE, fill: BLUE }}
 >
         <Heart
           className="mx-auto w-10 h-10 mb-3"
-style={{ color: BLUE, fill: BLUE }}
+style={{ color: "#888B97", fill: "#888B97" }}
         />
 
         <p className="text-xl leading-loose mb-3" style={{ color: TEXT }}>
