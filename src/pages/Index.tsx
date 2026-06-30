@@ -145,7 +145,6 @@ boxShadow: "0 0 20px rgba(125, 211, 252, 0.6)", }}
                   <Reveal key={i} delay={i * 120}>
                     <div className={`relative ${lang === "ar" ? "pr-16" : "pl-16"}`}>
                       <div
-                        <div
   className={`absolute ${lang === "ar" ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10`}
   style={{
     background: "rgba(125, 211, 252, 0.08)",
