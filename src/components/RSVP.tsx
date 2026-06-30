@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import Reveal from "./Reveal";
 import { useLang } from "@/i18n/LanguageContext";
 
-const HOST_WHATSAPP = "966554129943";
 
 type State =
   | { kind: "form" }
@@ -17,20 +16,38 @@ const RSVP = () => {
   const { t } = useLang();
 
   const [name, setName] = useState("");
-  const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
-  const [state, setState] = useState<State>({ kind: "form" });
+const [message, setMessage] = useState("");
+const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
+const [state, setState] = useState<State>({ kind: "form" });
 
   // ✔️ ألوان وردية فقط (نفس مربع الأطفال)
-  const PINK = "hsl(340 55% 60%)";
-  const PINK_BORDER = "hsl(340 50% 75% / 0.5)";
-  const PINK_BG = "hsla(345, 60%, 97%, 0.6)";
-  const TEXT = "hsl(340 45% 30%)";
+ const BLUE = "#7DD3FC";
+const CARD_BG = "hsla(345, 60%, 97%, 0.6)";
+const TEXT = "#243040";
+const NUMBER = "#888B97";
 
   const submit = async () => {
     if (!name.trim() || !choice) return;
 
     setState({ kind: "loading" });
-
+await fetch(
+  "https://docs.google.com/forms/d/e/1FAIpQLSdZTE9drL9mkMp1TxJFcujXKkm-tbgUTuKR9w0_CWSObNNepw/formResponse",
+  {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      "entry.217146927": name.trim(),
+      "entry.1422434369":
+        choice === "attending"
+          ? "سأحضر بإذن الله"
+          : "الاعتذار عن الحضور",
+      "entry.1920509368": message,
+    }),
+  }
+);
 const deviceId = Date.now().toString();
 
     const { error } = await supabase.from("rsvps").insert({
@@ -46,30 +63,10 @@ const deviceId = Date.now().toString();
 
     if (choice === "attending") {
       setState({ kind: "attending", name: name.trim() });
-      setTimeout(() => sendWhatsApp("attending", name.trim()), 3000);
     } else {
       setState({ kind: "declined", name: name.trim() });
-      setTimeout(() => sendWhatsApp("declined", name.trim()), 3000);
     }
   };
-
-  const sendWhatsApp = (
-  status: "attending" | "declined",
-  guestName: string
-) => {
-  const text =
-    status === "attending"
-      ? `🌸 سأحضر بإذن الله\n${guestName}`
-      : `🌸 أعتذر عن الحضور\n${guestName}`;
-
-  const isMobile = /iPhone|Android/i.test(navigator.userAgent);
-
-  const url = isMobile
-    ? `whatsapp://send?phone=${HOST_WHATSAPP}&text=${encodeURIComponent(text)}`
-    : `https://wa.me/${HOST_WHATSAPP}?text=${encodeURIComponent(text)}`;
-
-  window.location.href = url;
-};
 
   // ===== ATTENDING =====
   if (state.kind === "attending") {
@@ -112,7 +109,7 @@ const deviceId = Date.now().toString();
         className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
         style={{
           background: PINK_BG,
-          border: `1.5px solid ${PINK_BORDER}`,
+border: "1.5px solid #7DD3FC",
         }}
       >
         <Heart
@@ -128,9 +125,7 @@ const deviceId = Date.now().toString();
           {state.name}
         </div>
 
-        <p className="text-sm" style={{ color: TEXT }}>
-          {t("redirect_wa")}
-        </p>
+    
       </div>
     </Reveal>
   );
@@ -142,8 +137,9 @@ const deviceId = Date.now().toString();
       <div
         className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
         style={{
-          background: PINK_BG,
-          border: `1.5px solid ${PINK_BORDER}`,
+          background: CARD_BG,
+border: "1.5px solid #7DD3FC",
+boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
         }}
       >
         <label className="block text-sm mb-2" style={{ color: TEXT }}>
@@ -161,20 +157,33 @@ const deviceId = Date.now().toString();
             color: TEXT,
           }}
         />
+<label className="block text-sm mt-5 mb-2" style={{ color: TEXT }}>
+  رسالة إلى العروسين
+</label>
 
+<textarea
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  placeholder="اكتب رسالتك هنا..."
+  rows={4}
+  className="w-full px-4 py-3 rounded-xl text-right resize-none"
+  style={{
+    background: "hsla(345, 60%, 98%, 0.8)",
+    border: "1.5px solid #7DD3FC",
+    color: TEXT,
+  }}
+/>
         <div className="grid grid-cols-2 gap-3 mt-5">
           <button
             onClick={() => setChoice("attending")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background:
-                choice === "attending" ? PINK : PINK_BG,
-              color: TEXT,
-              border: `1.5px solid ${PINK_BORDER}`,
-              boxShadow:
-                choice === "attending"
-                  ? `0 0 14px ${PINK}55`
-                  : "none",
+              background: choice === "attending" ? "#7DD3FC" : CARD_BG,
+border: "1.5px solid #7DD3FC",
+boxShadow:
+  choice === "attending"
+    ? "0 0 18px rgba(125,211,252,.6)"
+    : "none",
             }}
           >
             <Check className="w-4 h-4" />
@@ -185,14 +194,12 @@ const deviceId = Date.now().toString();
             onClick={() => setChoice("declined")}
             className="py-3 rounded-xl text-sm flex items-center justify-center gap-2"
             style={{
-              background:
-                choice === "declined" ? PINK : PINK_BG,
-              color: TEXT,
-              border: `1.5px solid ${PINK_BORDER}`,
-              boxShadow:
-                choice === "declined"
-                  ? `0 0 14px ${PINK}55`
-                  : "none",
+              background: choice === "declined" ? "#7DD3FC" : CARD_BG,
+border: "1.5px solid #7DD3FC",
+boxShadow:
+  choice === "declined"
+    ? "0 0 18px rgba(125,211,252,.6)"
+    : "none",
             }}
           >
             <X className="w-4 h-4" />
@@ -205,9 +212,9 @@ const deviceId = Date.now().toString();
           disabled={!name.trim() || !choice || state.kind === "loading"}
           className="w-full mt-5 py-3 rounded-xl text-base flex items-center justify-center gap-2"
           style={{
-            background: PINK,
-            color: "#fff",
-            boxShadow: `0 4px 18px ${PINK}55`,
+            background: "#7DD3FC",
+color: "#243040",
+boxShadow: "0 0 18px rgba(125,211,252,.6)",
             fontWeight: 700,
           }}
         >
