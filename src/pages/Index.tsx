@@ -113,7 +113,7 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
               </div>
             </Reveal>
           </section>
-
+{false && (
           <section className="px-4 py-16">
             <Reveal>
               <h2 className="text-center font-tajawal text-3xl mb-6" style={{ color: "#243040" }}>
@@ -122,8 +122,7 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
             </Reveal>
             <Timeline />
           </section>
-
-{false && (
+)}
 <section className="px-4 py-16">
             <Reveal>
               <h2 className="text-center font-tajawal text-3xl mb-10" style={{ color: "#243040" }}>
@@ -192,7 +191,6 @@ background: "hsla(345, 60%, 97%, 0.6)",
               </div>
             </div>
           </section>
-)}
           <RSVP />
 
           {/* ✔️ السهمين (إضافة فقط) */}
