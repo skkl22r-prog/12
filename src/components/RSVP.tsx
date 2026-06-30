@@ -75,14 +75,14 @@ const deviceId = Date.now().toString();
       <div
         className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
         style={{
-          background: PINK_BG,
-          border: `2px solid ${PINK}`,
-          boxShadow: `0 0 40px ${PINK}55`,
+          background: CARD_BG,
+border: "1.5px solid #7DD3FC",
+boxShadow: "0 0 18px rgba(125,211,252,.6)",
         }}
       >
         <Heart
           className="mx-auto w-10 h-10 mb-3"
-          style={{ color: PINK, fill: PINK }}
+style={{ color: BLUE, fill: BLUE }}
         />
 
         <div className="text-2xl font-bold mb-4" style={{ color: TEXT }}>
@@ -93,9 +93,7 @@ const deviceId = Date.now().toString();
           {state.name}
         </div>
 
-        <p className="text-sm" style={{ color: TEXT }}>
-          {t("redirect_wa")}
-        </p>
+    
       </div>
     </Reveal>
   );
@@ -106,15 +104,16 @@ const deviceId = Date.now().toString();
   return (
     <Reveal>
       <div
-        className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
-        style={{
-          background: PINK_BG,
-border: "1.5px solid #7DD3FC",
-        }}
-      >
+  className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+  style={{
+    background: CARD_BG,
+    border: "1.5px solid #7DD3FC",
+    boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
+  }}
+>
         <Heart
           className="mx-auto w-10 h-10 mb-3"
-          style={{ color: PINK, fill: PINK }}
+style={{ color: BLUE, fill: BLUE }}
         />
 
         <p className="text-xl leading-loose mb-3" style={{ color: TEXT }}>
@@ -153,7 +152,7 @@ boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
           className="w-full px-4 py-3 rounded-xl text-right"
           style={{
             background: "hsla(345, 60%, 98%, 0.8)",
-            border: `1.5px solid ${PINK_BORDER}`,
+border: "1.5px solid #7DD3FC",
             color: TEXT,
           }}
         />
