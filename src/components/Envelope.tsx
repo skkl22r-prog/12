@@ -41,7 +41,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
             borderLeft: "1px solid hsla(0,0%,100%,0.45)",
             boxShadow: opening
               ? "-30px 0 60px hsla(0,0%,0%,0.45)"
-              : "inset 6px 0 24px hsla(340,30%,40%,0.18), inset 0 0 80px hsla(0,0%,100%,0.25)",
+: "inset 6px 0 24px rgba(125, 211, 252, 0.35), inset 0 0 80px rgba(125, 211, 252, 0.18)",
           }}
         >
           {/* Pearl + gold romantic ornament overlay */}
@@ -90,7 +90,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
             borderRight: "1px solid hsla(0,0%,100%,0.45)",
             boxShadow: opening
               ? "30px 0 60px hsla(0,0%,0%,0.45)"
-              : "inset -6px 0 24px hsla(340,30%,40%,0.18), inset 0 0 80px hsla(0,0%,100%,0.25)",
+: "inset -6px 0 24px rgba(125, 211, 252, 0.35), inset 0 0 80px rgba(125, 211, 252, 0.18)",
           }}
         >
           <div
@@ -147,7 +147,8 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
               className="w-56 h-56 sm:w-72 sm:h-72 object-contain"
               style={{
                 filter:
-                  "drop-shadow(0 14px 40px hsla(340, 40%, 30%, 0.55)) drop-shadow(0 0 25px hsla(340, 70%, 80%, 0.45))",
+filter:
+  "drop-shadow(0 14px 40px rgba(125, 211, 252, 0.45)) drop-shadow(0 0 25px rgba(125, 211, 252, 0.55))",
               }}
             />
           </div>
