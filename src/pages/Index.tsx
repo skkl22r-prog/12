@@ -39,18 +39,18 @@ const Index = () => {
     background: "transparent",
   }}
 >
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${bgFloral})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.35,
-          mixBlendMode: "multiply",
-        }}
-      />
+     <div
+  aria-hidden
+  className="pointer-events-none fixed inset-0 z-0"
+  style={{
+    backgroundImage: `url(${bgFloral})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    opacity: 1,
+    mixBlendMode: "normal",
+  }}
+/>
 
       <SprayParticles />
       <LanguageToggle />
