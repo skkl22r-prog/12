@@ -97,7 +97,9 @@ const glow = "#7DD3FC";
                 className="max-w-2xl mx-auto rounded-2xl overflow-hidden"
                 style={{
                   boxShadow: "var(--shadow-soft)",
-                  border: "1.5px solid hsl(340 50% 75% / 0.5)",
+border: "1.5px solid #7DD3FC",
+boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
+borderRadius: "12px",
                 }}
               >
                 <iframe
@@ -131,8 +133,8 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
             <div className="relative max-w-xl mx-auto">
               <div
                 className={`absolute top-6 bottom-6 ${lang === "ar" ? "right-6" : "left-6"} w-px`}
-                style={{ border: "1.5px solid rgba(125, 211, 252, 0.6)",
-boxShadow: "0 0 20px rgba(125, 211, 252, 0.25)", }}
+                style={{ border: "1.5px solid #7DD3FC",
+boxShadow: "0 0 20px rgba(125, 211, 252, 0.6)", }}
               />
 
               <div className="space-y-6">
@@ -147,19 +149,20 @@ boxShadow: "0 0 20px rgba(125, 211, 252, 0.25)", }}
                         style={{
 background: glow,
 boxShadow: "0 0 12px #7DD3FC",
-                          border: "2px solid hsl(340 55% 60%)",
+border: "2px solid #7DD3FC",
                         }}
                       >
-                        <span className="w-2 h-2 rounded-full" style={{ background: "hsl(340 55% 55%)" }} />
+                        <span className="w-2 h-2 rounded-full" style={{ background: "#7DD3FC" }} />
                       </div>
 
                       <div
                         className="rounded-xl px-6 py-5 backdrop-blur-md flex items-center justify-between gap-4"
                         style={{
-                          background: "rgba(125, 211, 252, 0.08)",
-border: "1.5px solid rgba(125, 211, 252, 0.6)",
-boxShadow: "0 0 18px rgba(125, 211, 252, 0.25)",
-                        }}
+  background: "rgba(125, 211, 252, 0.08)",
+  border: "1.5px solid #7DD3FC",
+  boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
+  borderRadius: "12px",
+}}
                       >
                         <span
                           className={`font-tajawal text-lg flex-1 ${
@@ -189,7 +192,7 @@ boxShadow: "0 0 18px rgba(125, 211, 252, 0.25)",
 
           <footer className="px-4 py-12 text-center">
             <Reveal>
-              <div className="flex items-center justify-center gap-2" style={{ color: "hsl(340 45% 35%)" }}>
+              <div className="flex items-center justify-center gap-2" style={{ color: "#888B97" }}>
                 <Heart className="w-4 h-4 fill-current" />
                 <span className="font-tajawal text-sm">
                   {t("made_by")}{" "}
