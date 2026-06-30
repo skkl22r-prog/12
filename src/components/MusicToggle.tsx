@@ -35,22 +35,22 @@ const MusicToggle = ({ active }: Props) => {
   return (
     <>
        <audio ref={audioRef} src="/shim2t.m4a" preload="auto" />
-      <button
-        onClick={toggle}
-        aria-label={playing ? "إيقاف الموسيقى" : "تشغيل الموسيقى"}
-        className="fixed bottom-4 left-4 z-50 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all hover:scale-110"
-        style={{
-          background: "hsla(345, 60%, 97%, 0.75)",
-          border: "1.5px solid hsl(340 55% 60%)",
-          boxShadow: "var(--shadow-soft), 0 0 20px hsl(340 60% 70% / 0.35)",
-        }}
-      >
-        {playing ? (
-          <Volume2 className="w-5 h-5" style={{ color: "hsl(340 55% 50%)" }} />
-        ) : (
-          <VolumeX className="w-5 h-5" style={{ color: "hsl(340 55% 50%)" }} />
-        )}
-      </button>
+<button
+  onClick={toggle}
+  aria-label={playing ? "إيقاف الموسيقى" : "تشغيل الموسيقى"}
+  className="fixed bottom-4 left-4 z-50 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all hover:scale-110"
+  style={{
+    background: "hsla(345, 60%, 97%, 0.6)",
+    border: "1.5px solid #7DD3FC",
+    boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
+  }}
+>
+  {playing ? (
+    <Volume2 className="w-5 h-5" style={{ color: "#243040" }} />
+  ) : (
+    <VolumeX className="w-5 h-5" style={{ color: "#243040" }} />
+  )}
+</button>
     </>
   );
 };
