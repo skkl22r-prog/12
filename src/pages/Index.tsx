@@ -202,24 +202,28 @@ background: "hsla(345, 60%, 97%, 0.6)",
 </div>
 
           <footer className="px-4 py-12 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-2" style={{ color: "#888B97" }}>
-                <Heart className="w-4 h-4 fill-current" />
-                <span className="font-tajawal text-sm">
-                  {t("made_by")}{" "}
-                  <a
-                    href="https://www.tiktok.com/@shim2t?_r=1&_t=ZS-95w0d8f7vnk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline underline-offset-4"
-                    style={{ color: "hsl(340 55% 50%)" }}
-                  >
-                    {t("store")}
-                  </a>
-                </span>
-              </div>
-            </Reveal>
-          </footer>
+  <Reveal>
+    <div
+      className="flex items-center justify-center gap-2"
+      style={{ color: "#888B97" }}
+    >
+      <Heart className="w-4 h-4 fill-current" style={{ color: "#888B97" }} />
+
+      <span className="font-tajawal text-sm" style={{ color: "#243040" }}>
+        {t("made_by")}{" "}
+        <a
+          href="https://www.tiktok.com/@shim2t?_r=1&_t=ZS-95w0d8f7vnk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-4"
+          style={{ color: "#888B97" }}
+        >
+          {t("store")}
+        </a>
+      </span>
+    </div>
+  </Reveal>
+</footer>
         </main>
       )}
     </div>
