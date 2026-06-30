@@ -85,6 +85,7 @@ localStorage.setItem("rsvp_state", JSON.stringify(newState));
   return (
     <Reveal>
       <div
+ >
 <Heart
   className="mx-auto w-10 h-10 mb-3"
 />
