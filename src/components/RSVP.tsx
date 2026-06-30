@@ -132,8 +132,6 @@ style={{ color: "#888B97", fill: "#888B97" }}
         <div className="text-base mb-6" style={{ color: TEXT }}>
           {state.name}
         </div>
-
-    
       </div>
     </Reveal>
   );
