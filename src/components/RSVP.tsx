@@ -18,9 +18,14 @@ const RSVP = () => {
   const [name, setName] = useState("");
 const [message, setMessage] = useState("");
 const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
+
 const [state, setState] = useState<State>(() => {
-  const saved = localStorage.getItem("rsvp_state");
-  return saved ? JSON.parse(saved) : { kind: "form" };
+  try {
+    const saved = localStorage.getItem("rsvp_state");
+    return saved ? JSON.parse(saved) : { kind: "form" };
+  } catch {
+    return { kind: "form" };
+  }
 });
 
   // ✔️ ألوان وردية فقط (نفس مربع الأطفال)
