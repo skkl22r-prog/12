@@ -65,7 +65,7 @@ const Index = () => {
 
           <section className="px-4 py-16">
             <Reveal>
-              <h2 className="text-center font-tajawal text-3xl mb-10" style={{ color: "hsl(340 45% 30%)" }}>
+              <h2 className="text-center font-tajawal text-3xl mb-10" style={{ color: "#243040" }}>
                 {t("countdown_title")}
               </h2>
             </Reveal>
@@ -76,17 +76,17 @@ const Index = () => {
 
           <section className="px-4 py-16">
             <Reveal>
-              <h2 className="text-center font-tajawal text-3xl mb-8" style={{ color: "hsl(340 45% 30%)" }}>
+              <h2 className="text-center font-tajawal text-3xl mb-8" style={{ color: "#243040" }}>
                 {t("venue_title")}
               </h2>
             </Reveal>
             <Reveal delay={100}>
               <div className="text-center mb-6">
-                <MapPin className="mx-auto w-10 h-10 mb-3" style={{ color: "hsl(340 55% 55%)" }} />
-                <div className="font-tajawal text-2xl" style={{ color: "hsl(340 45% 30%)" }}>
+                <MapPin className="mx-auto w-10 h-10 mb-3" style={{ color: "#243040" }}/>
+                <div className="font-tajawal text-2xl" style={{ color: "#243040" }}>
                   {t("venue_name")}
                 </div>
-                <div className="font-tajawal text-lg mt-1" style={{ color: "hsl(340 25% 45%)" }}>
+                <div className="font-tajawal text-lg mt-1" style={{ color: "#243040" }}>
                   {t("venue_city")}
                 </div>
               </div>
@@ -114,7 +114,7 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
 
           <section className="px-4 py-16">
             <Reveal>
-              <h2 className="text-center font-tajawal text-3xl mb-6" style={{ color: "hsl(340 45% 30%)" }}>
+              <h2 className="text-center font-tajawal text-3xl mb-6" style={{ color: "#243040" }}>
                 {t("program_title")}
               </h2>
             </Reveal>
@@ -123,7 +123,7 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
 
           <section className="px-4 py-16">
             <Reveal>
-              <h2 className="text-center font-tajawal text-3xl mb-10" style={{ color: "hsl(340 45% 30%)" }}>
+              <h2 className="text-center font-tajawal text-3xl mb-10" style={{ color: "#243040" }}>
                 {t("details_title")}
               </h2>
             </Reveal>
@@ -167,7 +167,7 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
                         >
                           {d.text}
                         </span>
-                        <d.icon className="w-7 h-7 shrink-0" style={{ color: "hsl(340 55% 50%)" }} />
+                        <d.icon className="w-7 h-7 shrink-0" style={{ color: "#243040" }} />
                       </div>
                     </div>
                   </Reveal>
