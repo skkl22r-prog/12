@@ -145,35 +145,37 @@ boxShadow: "0 0 20px rgba(125, 211, 252, 0.6)", }}
                   <Reveal key={i} delay={i * 120}>
                     <div className={`relative ${lang === "ar" ? "pr-16" : "pl-16"}`}>
                       <div
-                        className={`absolute ${lang === "ar" ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10`}
-                        style={{
-background: glow,
-boxShadow: "0 0 12px #7DD3FC",
-border: "2px solid #7DD3FC",
-                        }}
-                      >
-                        <span className="w-2 h-2 rounded-full" style={{ background: "#7DD3FC" }} />
-                      </div>
+                        <div
+  className={`absolute ${lang === "ar" ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10`}
+  style={{
+    background: "rgba(125, 211, 252, 0.08)",
+    boxShadow: "0 0 12px #7DD3FC",
+    border: "2px solid #7DD3FC",
+  }}
+>
+  <span className="w-2 h-2 rounded-full" style={{ background: "#7DD3FC" }} />
+</div>
 
-                      <div
-                        className="rounded-xl px-6 py-5 backdrop-blur-md flex items-center justify-between gap-4"
-                        style={{
-  background: "rgba(125, 211, 252, 0.08)",
-  border: "1.5px solid #7DD3FC",
-  boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
-  borderRadius: "12px",
-}}
-                      >
-                        <span
-                          className={`font-tajawal text-lg flex-1 ${
-                            lang === "ar" ? "text-right" : "text-left"
-                          }`}
-                          style={{ color: "hsl(340 40% 30%)" }}
-                        >
-                          {d.text}
-                        </span>
-                        <d.icon className="w-7 h-7 shrink-0" style={{ color: "#243040" }} />
-                      </div>
+<div
+  className="rounded-xl px-6 py-5 backdrop-blur-md flex items-center justify-between gap-4"
+  style={{
+    background: "rgba(125, 211, 252, 0.08)",
+    border: "1.5px solid #7DD3FC",
+    boxShadow: "0 0 18px rgba(125, 211, 252, 0.6)",
+    borderRadius: "12px",
+  }}
+>
+  <span
+    className={`font-tajawal text-lg flex-1 ${
+      lang === "ar" ? "text-right" : "text-left"
+    }`}
+    style={{ color: "#7DD3FC" }}
+  >
+    {d.text}
+  </span>
+
+  <d.icon className="w-7 h-7 shrink-0" style={{ color: "#7DD3FC" }} />
+</div>
                     </div>
                   </Reveal>
                 ))}
