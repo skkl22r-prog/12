@@ -81,7 +81,7 @@
     @apply border-border;
   }
   body {
-    background-image: url("/your-image.jpg");
+    background-image: url("/bg-floral.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
