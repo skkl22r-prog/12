@@ -85,7 +85,7 @@ localStorage.setItem("rsvp_state", JSON.stringify(newState));
   return (
     <Reveal>
       <div
-className="mx-auto w-[92%] max-w-sm sm:max-w-md rounded-2xl p-5 sm:p-8 backdrop-blur-md"
+className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
         style={{
           background: CARD_BG,
 border: "1.5px solid #7DD3FC",
