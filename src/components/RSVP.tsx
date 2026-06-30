@@ -17,15 +17,7 @@ const RSVP = () => {
   const [name, setName] = useState("");
 const [message, setMessage] = useState("");
 const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
-
-const [state, setState] = useState<State>(() => {
-  try {
-    const saved = localStorage.getItem("rsvp_state");
-    return saved ? JSON.parse(saved) : { kind: "form" };
-  } catch {
-    return { kind: "form" };
-  }
-});
+const [state, setState] = useState<State>({ kind: "form" });
 
   // ✔️ ألوان وردية فقط (نفس مربع الأطفال)
  const BLUE = "#7DD3FC";
@@ -71,7 +63,6 @@ const deviceId = Date.now().toString();
     if (choice === "attending") {
 const newState = { kind: "attending", name: name.trim() };
 setState(newState);
-localStorage.setItem("rsvp_state", JSON.stringify(newState));
     } else {
 const newState = { kind: "declined", name: name.trim() };
 setState(newState);
