@@ -36,9 +36,8 @@ const Index = () => {
       className="relative min-h-screen overflow-x-hidden"
       dir={lang === "ar" ? "rtl" : "ltr"}
       style={{
-        background:
-          "linear-gradient(180deg, hsl(345 55% 96%) 0%, hsl(340 45% 92%) 50%, hsl(120 20% 88%) 100%)",
-      }}
+  background: "transparent",
+}}
     >
       <div
         aria-hidden
