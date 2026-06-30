@@ -33,12 +33,12 @@ const Index = () => {
 
   return (
     <div
-      className="relative min-h-screen overflow-x-hidden"
-      dir={lang === "ar" ? "rtl" : "ltr"}
-      style={{
-  background: "transparent",
-}}
-    >
+  className="relative min-h-screen overflow-x-hidden"
+  dir={lang === "ar" ? "rtl" : "ltr"}
+  style={{
+    background: "transparent",
+  }}
+>
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0"
