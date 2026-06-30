@@ -205,21 +205,21 @@ background: "hsla(345, 60%, 97%, 0.6)",
   <Reveal>
     <div
       className="flex items-center justify-center gap-2"
-      style={{ color: "#888B97" }}
+      style={{ color: "#243040" }}
     >
       <Heart
         className="w-4 h-4 fill-current"
-        style={{ color: "#888B97" }}
+        style={{ color: "#243040" }}
       />
 
-      <span className="font-tajawal text-sm" style={{ color: "#888B97" }}>
+      <span className="font-tajawal text-sm" style={{ color: "#243040" }}>
         {t("made_by")}{" "}
         <a
           href="https://www.tiktok.com/@shim2t?_r=1&_t=ZS-95w0d8f7vnk"
           target="_blank"
           rel="noopener noreferrer"
           className="underline underline-offset-4"
-          style={{ color: "#888B97" }}
+          style={{ color: "#243040" }}
         >
           {t("store")}
         </a>
