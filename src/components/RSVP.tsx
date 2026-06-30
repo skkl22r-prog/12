@@ -3,7 +3,7 @@ import { Check, X, Send, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "./Reveal";
 import { useLang } from "@/i18n/LanguageContext";
-
+import barcodeImage from "@/assets/file_1782828968179.png";
 
 type State =
   | { kind: "form" }
@@ -102,8 +102,14 @@ className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
         </div>
 
         <div className="text-base mb-6" style={{ color: TEXT }}>
-          {state.name}
-        </div>
+  {state.name}
+</div>
+
+<img
+  src={barcodeImage}
+  alt="QR Code"
+  className="mx-auto w-40 h-40"
+/>
       </div>
     </Reveal>
   );
