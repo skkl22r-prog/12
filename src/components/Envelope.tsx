@@ -20,7 +20,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
   return (
     <div
       className="fixed inset-0 z-40 cursor-pointer overflow-hidden"
-      style={{ background: "hsl(340 30% 20%)", perspective: "2000px" }}
+      style={{ background: "#243040", perspective: "2000px" }}
       onClick={trigger}
     >
       <div className="absolute inset-0 flex items-center justify-center">
@@ -35,7 +35,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
             transition: "transform 2s cubic-bezier(0.65, 0, 0.35, 1) 0.08s",
             transform: opening ? "translateX(110%)" : "translateX(0)",
             background:
-              "linear-gradient(135deg, hsla(345, 60%, 96%, 0.55), hsla(340, 45%, 88%, 0.35))",
+  "linear-gradient(135deg, #888B97, hsla(200, 100%, 92%, 0.45))",
             backdropFilter: "blur(14px) saturate(140%)",
             WebkitBackdropFilter: "blur(14px) saturate(140%)",
             borderLeft: "1px solid hsla(0,0%,100%,0.45)",
@@ -127,7 +127,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
         <div
           className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none"
           style={{
-            background: "hsla(340, 60%, 70%, 0.6)",
+background: "hsla(200, 100%, 88%, 0.8)"
             opacity: opening ? 0 : 1,
             transition: "opacity 0.6s ease-out",
           }}
@@ -156,7 +156,7 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
 
       <div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 text-sm font-tajawal animate-pulse z-10"
-        style={{ color: "hsla(340, 60%, 92%, 0.95)" }}
+        style={{ color: "hsla(200, 100%, 96%, 0.95)" }}
       >
         {t("tap_open")}
       </div>
