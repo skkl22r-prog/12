@@ -16,7 +16,7 @@ const Index = () => {
   const [opened, setOpened] = useState(false);
   const [hideScroll, setHideScroll] = useState(false); // ✔️ إضافة فقط
   const { t, lang } = useLang();
-
+const glow = "#7DD3FC";
   // ✔️ إضافة فقط (بدون لمس أي شيء)
   useEffect(() => {
     const handleScroll = () => {
@@ -131,7 +131,8 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
             <div className="relative max-w-xl mx-auto">
               <div
                 className={`absolute top-6 bottom-6 ${lang === "ar" ? "right-6" : "left-6"} w-px`}
-                style={{ background: "hsl(340 50% 75% / 0.5)" }}
+                style={{ border: "1.5px solid rgba(125, 211, 252, 0.6)",
+boxShadow: "0 0 20px rgba(125, 211, 252, 0.25)", }}
               />
 
               <div className="space-y-6">
@@ -144,9 +145,9 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
                       <div
                         className={`absolute ${lang === "ar" ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10`}
                         style={{
-                          background: "hsl(345 60% 97%)",
+background: glow,
+boxShadow: "0 0 12px #7DD3FC",
                           border: "2px solid hsl(340 55% 60%)",
-                          boxShadow: "0 0 14px hsl(340 55% 70% / 0.4)",
                         }}
                       >
                         <span className="w-2 h-2 rounded-full" style={{ background: "hsl(340 55% 55%)" }} />
@@ -155,8 +156,9 @@ src="https://www.google.com/maps?q=قاعة+ليلة+العمر+للاحتفال
                       <div
                         className="rounded-xl px-6 py-5 backdrop-blur-md flex items-center justify-between gap-4"
                         style={{
-                          background: "hsla(345, 60%, 97%, 0.6)",
-                          border: "1.5px solid hsl(340 50% 75% / 0.5)",
+                          background: "rgba(125, 211, 252, 0.08)",
+border: "1.5px solid rgba(125, 211, 252, 0.6)",
+boxShadow: "0 0 18px rgba(125, 211, 252, 0.25)",
                         }}
                       >
                         <span
