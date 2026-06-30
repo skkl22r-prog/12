@@ -29,7 +29,7 @@ const Timeline = () => {
               />
               <div className="grid grid-cols-2 w-full gap-8">
                 <div
-                  className="text-right pr-10 font-display text-2xl"
+className="text-right pr-10 font-display text-2xl flex justify-start pl-8"
                   dir="ltr"
                   style={{ color: "hsl(340 45% 35%)", textAlign: "right" }}
                 >
