@@ -66,7 +66,6 @@ setState(newState);
     } else {
 const newState = { kind: "declined", name: name.trim() };
 setState(newState);
-localStorage.setItem("rsvp_state", JSON.stringify(newState));
     }
   };
 
