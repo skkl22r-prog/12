@@ -18,7 +18,10 @@ const RSVP = () => {
   const [name, setName] = useState("");
 const [message, setMessage] = useState("");
 const [choice, setChoice] = useState<"attending" | "declined" | null>(null);
-const [state, setState] = useState<State>({ kind: "form" });
+const [state, setState] = useState<State>(() => {
+  const saved = localStorage.getItem("rsvp_state");
+  return saved ? JSON.parse(saved) : { kind: "form" };
+});
 
   // ✔️ ألوان وردية فقط (نفس مربع الأطفال)
  const BLUE = "#7DD3FC";
@@ -62,9 +65,13 @@ const deviceId = Date.now().toString();
     }
 
     if (choice === "attending") {
-      setState({ kind: "attending", name: name.trim() });
+const newState = { kind: "attending", name: name.trim() };
+setState(newState);
+localStorage.setItem("rsvp_state", JSON.stringify(newState));
     } else {
-      setState({ kind: "declined", name: name.trim() });
+const newState = { kind: "declined", name: name.trim() };
+setState(newState);
+localStorage.setItem("rsvp_state", JSON.stringify(newState));
     }
   };
 
@@ -73,7 +80,7 @@ const deviceId = Date.now().toString();
   return (
     <Reveal>
       <div
-        className="mx-auto max-w-md rounded-2xl p-8 text-center backdrop-blur-md"
+className="mx-auto w-[92%] max-w-sm sm:max-w-md rounded-2xl p-4 sm:p-8 backdrop-blur-md"
         style={{
           background: CARD_BG,
 border: "1.5px solid #7DD3FC",
