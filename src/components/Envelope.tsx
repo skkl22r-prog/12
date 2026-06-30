@@ -146,7 +146,6 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
               alt="ribbon seal"
               className="w-56 h-56 sm:w-72 sm:h-72 object-contain"
               style={{
-                filter:
 filter:
   "drop-shadow(0 14px 40px rgba(125, 211, 252, 0.45)) drop-shadow(0 0 25px rgba(125, 211, 252, 0.55))",
               }}
