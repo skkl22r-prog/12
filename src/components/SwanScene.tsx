@@ -28,7 +28,7 @@ const SwanScene = () => {
             style={{
               background:
                 "radial-gradient(ellipse at center, hsla(0,0%,0%,0.18) 0%, hsla(0,0%,0%,0.08) 200%, hsla(0,0%,0%,0) 100%)",
-              backdropFilter: "blur(1.5px)",
+background: "transparent",
               WebkitBackdropFilter: "blur(1.5px)",
               color: "#FFFFFF",
               textShadow:
