@@ -134,7 +134,7 @@ style={{ color: "#888B97", fill: "#888B97" }}
   return (
     <Reveal>
       <div
-        className="mx-auto max-w-md rounded-2xl p-8 backdrop-blur-md"
+className="mx-auto max-w-md sm:max-w-md max-w-[92%] rounded-2xl p-5 sm:p-8 backdrop-blur-md"
         style={{
           background: CARD_BG,
 border: "1.5px solid #7DD3FC",
