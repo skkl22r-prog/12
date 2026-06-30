@@ -83,8 +83,8 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
           style={{
             transition: "transform 2s cubic-bezier(0.65, 0, 0.35, 1)",
             transform: opening ? "translateX(-110%)" : "translateX(0)",
-            background:
-              "linear-gradient(225deg, hsla(345, 60%, 96%, 0.55), hsla(340, 45%, 88%, 0.35))",
+         background:
+  "linear-gradient(225deg, #888B97, hsla(200, 100%, 92%, 0.45))",
             backdropFilter: "blur(14px) saturate(140%)",
             WebkitBackdropFilter: "blur(14px) saturate(140%)",
             borderRight: "1px solid hsla(0,0%,100%,0.45)",
@@ -127,10 +127,10 @@ const Envelope = ({ onOpen }: EnvelopeProps) => {
         <div
           className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none"
           style={{
-background: "hsla(200, 100%, 88%, 0.8)"
-            opacity: opening ? 0 : 1,
-            transition: "opacity 0.6s ease-out",
-          }}
+  background: "hsla(200, 100%, 88%, 0.8)",
+  opacity: opening ? 0 : 1,
+  transition: "opacity 0.6s ease-out",
+}}
         />
 
         <div
