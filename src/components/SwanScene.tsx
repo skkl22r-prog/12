@@ -26,8 +26,6 @@ const SwanScene = () => {
           <div
             className="flex flex-col items-center text-center px-5 py-6 rounded-2xl w-[98%] sm:w-[92%] gap-4"
             style={{
-              background:
-                "radial-gradient(ellipse at center, hsla(0,0%,0%,0.18) 0%, hsla(0,0%,0%,0.08) 200%, hsla(0,0%,0%,0) 100%)",
 background: "transparent",
               WebkitBackdropFilter: "blur(1.5px)",
               color: "#FFFFFF",
