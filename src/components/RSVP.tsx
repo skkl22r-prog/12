@@ -164,7 +164,7 @@ border: "1.5px solid #7DD3FC",
   value={message}
   onChange={(e) => setMessage(e.target.value)}
   placeholder="اكتب رسالتك هنا..."
-  rows={4}
+  rows={1}
   className="w-full px-4 py-3 rounded-xl text-right resize-none"
   style={{
     background: "hsla(345, 60%, 98%, 0.8)",
@@ -211,13 +211,13 @@ boxShadow:
           disabled={!name.trim() || !choice || state.kind === "loading"}
           className="w-full mt-5 py-3 rounded-xl text-base flex items-center justify-center gap-2"
           style={{
-            background: "#7DD3FC",
-color: "#243040",
-boxShadow: "0 0 18px rgba(125,211,252,.6)",
-            fontWeight: 700,
-          }}
+  background: "#243040",
+  color: "#FFFFFF",
+  boxShadow: "0 0 18px rgba(125,211,252,.6)",
+  fontWeight: 700,
+}}
         >
-          <Send className="w-4 h-4" />
+<Send className="w-4 h-4" color="#FFFFFF" />
           {state.kind === "loading" ? t("sending") : t("send")}
         </button>
 
