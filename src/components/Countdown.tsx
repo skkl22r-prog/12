@@ -44,13 +44,15 @@ const Countdown = () => {
 <div
   className="font-display text-3xl sm:text-4xl font-light tabular-nums"
   style={{ color: "#888B97" }}
-            {String(it.v).padStart(2, "0")}
-          </div>
+>
+  {String(it.v).padStart(2, "0")}
+</div>
 <div
   className="text-[10px] sm:text-xs uppercase tracking-widest mt-1 font-tajawal"
   style={{ color: "#243040" }}
-            {it.l}
-          </div>
+>
+  {it.l}
+</div>
         </div>
       ))}
     </div>
